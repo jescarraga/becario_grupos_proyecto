@@ -12,9 +12,9 @@ public class Main {
         //Agrega los numerales de los proyectos a un arraylist
         ArrayList<Integer> proyectos = new ArrayList<>();
         for (int i= 0 ; i < datos.size(); i++ ){
-            for (int j= 1; j < 4; j++){
-                proyectos.add(Integer.parseInt(datos.get(i).get(j)));
-            }
+
+            proyectos.add(Integer.parseInt(datos.get(i).get(1)));
+
         }
 
         //los ordena de menor a mayor
@@ -31,8 +31,8 @@ public class Main {
             int contador = 0;
             int j = i;
             System.out.println(i);
-            do{ //99 se arregla
-                if (((j != datos.size()*3)) && (proyectos.get(i) == proyectos.get(j))){
+            do{
+                if (((j != datos.size())) && (proyectos.get(i) == proyectos.get(j))){
                     j++;
                     contador++;
                 }else{
