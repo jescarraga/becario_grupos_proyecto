@@ -4,6 +4,7 @@ package com.company;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 
 
@@ -109,11 +110,48 @@ public class Main {
 
         System.out.println(grupos_f);
 
+
         //Agregar estudiantes a la lista
+        // Lo hace por cada estudiante
         for (int i = 0; i < datos.size(); i++) {
+            // Revisa grupo a grupo por cada estudiante
+            boolean asignado = false;
 
+            for (int j = 1; j < 5; j++) {
+                //Compara cada prioridad con la lista de grupos
+
+                if (asignado == false) {
+                    for (int k = 0; k < grupos_f.size(); k++) {
+
+                        //Si encuentra una coincidencia agrega al estudiante en el grupo y sale del ciclo
+                        if ((j < 4)&&(datos.get(i).get(j).compareTo(String.valueOf(grupos_f.get(k).get(0))) == 0) && (grupos_f.get(k).size() != 6)){
+                            grupos_f.get(k).add(datos.get(i).get(0));
+                            asignado = true;
+                            break;
+                        }
+
+                        //EStudiante con prioridad fuera de los proyectos populares
+                        if (j == 4) {
+                            while(asignado == false){
+                                //Crearemos un numero random de grupo asignaremos al estudiante en este grupo
+                                Random rn = new Random();
+                                int numero = (int) (Math.random() * grupos_f.size());
+                                if (grupos_f.get(numero).size() < 6) {
+                                    grupos_f.get(numero).add(datos.get(i).get(0));
+                                    asignado = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+                }else{
+                    break;
+                }
+
+            }
         }
-
+        System.out.println(grupos_f);
     }
 
 
