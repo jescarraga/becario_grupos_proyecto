@@ -151,7 +151,11 @@ public class Main {
 
             }
         }
-        System.out.println(grupos_f);
+        for (int i = 0; i < grupos_f.size(); i++) {
+            System.out.println("---------------------grupo--------------------");
+            System.out.print(grupos_f.get(i));
+            System.out.println(grupos_f.get(i).size());
+        }
     }
 
 
