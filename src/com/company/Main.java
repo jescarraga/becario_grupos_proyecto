@@ -5,7 +5,11 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
+
 public class Main {
+
+    static final int num_estudiantes = 39;
 
     public static ArrayList<Integer[]> proyectosYvotos(ArrayList<ArrayList<String>> datos){
 
@@ -73,20 +77,45 @@ public class Main {
         for (int i = 0; i < vector.size(); i++) {
             ordenado.add(i, vector.get(vector.size()-1-i));
         }
-        /*
+
         System.out.println("--------------------votos ordenasdos-------------------");
         for (int j = 0; j < ordenado.size(); j++) {
             System.out.print("grupo " + ordenado.get(j)[0]+" ");
             System.out.println("votos " + ordenado.get(j)[1]);
         }
         System.out.println("--------------------votos ordenasdos-------------------");
-         */
+
         return  ordenado;
     }
 
     public static void crear_grupos(ArrayList<ArrayList<String>> datos,ArrayList<Integer[]> grupos){
+        double cantidad_grupos = Math.ceil((double)num_estudiantes / 5.00) ;
+        System.out.println(cantidad_grupos);
+
+        //Crea la lista de los grupos
+        ArrayList<ArrayList<String>> grupos_f = new ArrayList<>();
+
+        //Crea una lista por cada grupo y le agrega el numero del grupo como primer elemento
+        for (int i = 0; i < cantidad_grupos; i++) {
+            grupos_f.add(new ArrayList<String>());
+
+            //Obtener numero grupo
+            String num_grupo = String.valueOf(grupos.get(i)[0]);
+
+            //ingresar numero del grupo a la primera componente de cada lista de grupo
+            grupos_f.get(i).add(0,num_grupo);
+
+        }
+
+        System.out.println(grupos_f);
+
+        //Agregar estudiantes a la lista
+        for (int i = 0; i < datos.size(); i++) {
+
+        }
 
     }
+
 
     public static void main(String[] args) {
         lectorCSV lectorCSV = new lectorCSV();
@@ -96,5 +125,6 @@ public class Main {
         lista_grupos= proyectosYvotos(datos);
         lista_grupos = ordenamiento(lista_grupos);
 
+        crear_grupos(datos,lista_grupos);
     }
 }
