@@ -30,7 +30,6 @@ public class Main {
             Integer[] numeros = new Integer[2];
             int contador = 0;
             int j = i;
-            System.out.println(i);
             do{
                 if (((j != datos.size())) && (proyectos.get(i) == proyectos.get(j))){
                     j++;
@@ -43,13 +42,14 @@ public class Main {
                 }
             }while(i!= j);
         }
-
+        /*
         System.out.println("--------------------votos-------------------");
         for (int j = 0; j < grupos_finales.size(); j++) {
             System.out.print("grupo " + grupos_finales.get(j)[0]);
             System.out.println("votos " + grupos_finales.get(j)[1]);
         }
         System.out.println("--------------------votos_final-------------------");
+         */
         return grupos_finales;
 
     }
@@ -73,23 +73,19 @@ public class Main {
         for (int i = 0; i < vector.size(); i++) {
             ordenado.add(i, vector.get(vector.size()-1-i));
         }
-
+        /*
         System.out.println("--------------------votos ordenasdos-------------------");
         for (int j = 0; j < ordenado.size(); j++) {
             System.out.print("grupo " + ordenado.get(j)[0]+" ");
             System.out.println("votos " + ordenado.get(j)[1]);
         }
-        /*
         System.out.println("--------------------votos ordenasdos-------------------");
-        for (int j = 0; j < vector.size(); j++) {
-            System.out.print("grupo " + vector.get(j)[0]+" ");
-            System.out.println("votos " + vector.get(j)[1]);
-        }
-
          */
-        System.out.println("--------------------votos ordenasdos-------------------");
+        return  ordenado;
+    }
 
-        return  vector;
+    public static void crear_grupos(ArrayList<ArrayList<String>> datos,ArrayList<Integer[]> grupos){
+
     }
 
     public static void main(String[] args) {
