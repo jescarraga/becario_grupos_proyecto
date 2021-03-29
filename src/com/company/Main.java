@@ -181,9 +181,10 @@ public class Main {
 
 
         for ( int i = 0; i < grupos.size(); i++) {
-            System.out.println("---------------------grupo--------------------");
-            System.out.print(grupos.get(i));
-            System.out.println(grupos.get(i).size());
+            System.out.println("---------------------Proyecto numero "+grupos.get(i).get(0)+"--------------------");
+            System.out.println(grupos.get(i));
+            System.out.println("  Tamaño del grupo "+ grupos.get(i).size());
+
         }
 
     }
