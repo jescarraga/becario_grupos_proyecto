@@ -41,7 +41,7 @@ public class lectorCSV {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(datos);
+        //System.out.println(datos);
         return datos;
     }
 }
