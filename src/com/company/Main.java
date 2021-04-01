@@ -90,6 +90,8 @@ public class Main {
         return  ordenado;
     }
 
+
+    //Arreglar para hacerlo mas general
     public static ArrayList<ArrayList<String>> crear_grupos(ArrayList<ArrayList<String>> datos,ArrayList<Integer[]> grupos){
         double cantidad_estudiantes_grupo = 4.00;
         double cantidad_grupos = Math.ceil((double)num_estudiantes / cantidad_estudiantes_grupo) ;
@@ -158,6 +160,7 @@ public class Main {
         return grupos_f;
     }
 
+    //Arreglar para hacerlo mas general
     public static void agregar_estudiantes_que_no_presentaron(ArrayList<ArrayList<String>> grupos, ArrayList<String> datos_no_participaron){
 
         for (int i = 0; i< datos_no_participaron.size(); i++) {
