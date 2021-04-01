@@ -110,7 +110,7 @@ public class Main {
 
         }
 
-        System.out.println(grupos_f);
+        //System.out.println(grupos_f);
 
 
         //Agregar estudiantes a la lista
