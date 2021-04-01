@@ -196,12 +196,15 @@ public class Main {
             System.out.println("  Tamaño del grupo "+ ((grupos_casi_formados.get(i).size())-1));
         }
 
+        System.out.println();
+        System.out.println();
+        System.out.println();
     }
 
 
     public static void main(String[] args) {
 
-
+        System.out.println("------------------Introduccion-------------");
         lectorCSV lectorCSV = new lectorCSV();
         ArrayList<ArrayList<String>> datos = lectorCSV.leerCSV("/media/jordan/DATOS/Programacion/Becario/introduccion_encuestados.csv");
 
@@ -215,5 +218,22 @@ public class Main {
         ArrayList<String> datos_no_participaron = lectorCSV.leerCSV_no_participantes("/media/jordan/DATOS/Programacion/Becario/introduccion_No_entregaron.csv");
 
         agregar_estudiantes_que_no_presentaron(grupos,datos_no_participaron,4);
+
+        System.out.println("------------------ED--------------------------------");
+
+        ArrayList<ArrayList<String>> datos_ED = lectorCSV.leerCSV("/media/jordan/DATOS/Programacion/Becario/ED_estudiantes_participaron.csv");
+
+
+        ArrayList<Integer[]> lista_grupos_ED = new ArrayList<>();
+        lista_grupos_ED= proyectosYvotos(datos_ED);
+        lista_grupos_ED = ordenamiento(lista_grupos_ED);
+
+        ArrayList<ArrayList<String>> grupos_ED = crear_grupos(datos_ED,lista_grupos_ED,34,3.00);
+
+
+        ArrayList<String> datos_no_participaron_ED = lectorCSV.leerCSV_no_participantes("/media/jordan/DATOS/Programacion/Becario/ED_no_entregaron.csv");
+
+        agregar_estudiantes_que_no_presentaron(grupos_ED,datos_no_participaron_ED,3);
+
     }
 }
