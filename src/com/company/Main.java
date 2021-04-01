@@ -91,7 +91,8 @@ public class Main {
     }
 
     public static ArrayList<ArrayList<String>> crear_grupos(ArrayList<ArrayList<String>> datos,ArrayList<Integer[]> grupos){
-        double cantidad_grupos = Math.ceil((double)num_estudiantes / 5.00) ;
+        double cantidad_estudiantes_grupo = 4.00;
+        double cantidad_grupos = Math.ceil((double)num_estudiantes / cantidad_estudiantes_grupo) ;
         //System.out.println(cantidad_grupos);
 
         //Crea la lista de los grupos
@@ -109,7 +110,7 @@ public class Main {
 
         }
 
-        //System.out.println(grupos_f);
+        System.out.println(grupos_f);
 
 
         //Agregar estudiantes a la lista
@@ -125,7 +126,8 @@ public class Main {
                     for (int k = 0; k < grupos_f.size(); k++) {
 
                         //Si encuentra una coincidencia agrega al estudiante en el grupo y sale del ciclo
-                        if ((j < 4)&&(datos.get(i).get(j).compareTo(String.valueOf(grupos_f.get(k).get(0))) == 0) && (grupos_f.get(k).size() != 6)){
+                        //Estudiantes por gruṕo = 4, por lo tanto cada arraylist de grupo debe tener 5 estapcio
+                        if ((j < 4)&&(datos.get(i).get(j).compareTo(String.valueOf(grupos_f.get(k).get(0))) == 0) && (grupos_f.get(k).size() != 5)){
                             grupos_f.get(k).add(datos.get(i).get(0));
                             asignado = true;
                             break;
@@ -137,7 +139,7 @@ public class Main {
                                 //Crearemos un numero random de grupo asignaremos al estudiante en este grupo
                                 Random rn = new Random();
                                 int numero = (int) (Math.random() * grupos_f.size());
-                                if (grupos_f.get(numero).size() < 6) {
+                                if (grupos_f.get(numero).size() < 5) {
                                     grupos_f.get(numero).add(datos.get(i).get(0));
                                     asignado = true;
                                     break;
@@ -152,13 +154,7 @@ public class Main {
 
             }
         }
-        /*
-        for (int i = 0; i < grupos_f.size(); i++) {
-            System.out.println("---------------------grupo--------------------");
-            System.out.print(grupos_f.get(i));
-            System.out.println(grupos_f.get(i).size());
-        }
-         */
+
         return grupos_f;
     }
 
@@ -170,7 +166,7 @@ public class Main {
                 //Crearemos un numero random de grupo asignaremos al estudiante en este grupo
                 Random rn = new Random();
                 int numero = (int) (Math.random() * grupos.size());
-                if (grupos.get(numero).size() < 6) {
+                if (grupos.get(numero).size() < 5) {
                     grupos.get(numero).add(datos_no_participaron.get(i));
                     asignado = true;
                     break;
@@ -183,7 +179,7 @@ public class Main {
         for ( int i = 0; i < grupos.size(); i++) {
             System.out.println("---------------------Proyecto numero "+grupos.get(i).get(0)+"--------------------");
             System.out.println(grupos.get(i));
-            System.out.println("  Tamaño del grupo "+ grupos.get(i).size());
+            System.out.println("  Tamaño del grupo "+ ((grupos.get(i).size())-1));
 
         }
 
