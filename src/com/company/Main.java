@@ -10,7 +10,6 @@ import java.util.Random;
 
 public class Main {
 
-    static final int num_estudiantes = 39;
 
     public static ArrayList<Integer[]> proyectosYvotos(ArrayList<ArrayList<String>> datos){
 
@@ -90,10 +89,12 @@ public class Main {
         return  ordenado;
     }
 
+    public static ArrayList<ArrayList<String>> crear_grupos(
+            ArrayList<ArrayList<String>> datos,
+            ArrayList<Integer[]> grupos,
+            int num_estudiantes,
+            double cantidad_estudiantes_grupo){
 
-    //Arreglar para hacerlo mas general
-    public static ArrayList<ArrayList<String>> crear_grupos(ArrayList<ArrayList<String>> datos,ArrayList<Integer[]> grupos){
-        double cantidad_estudiantes_grupo = 4.00;
         double cantidad_grupos = Math.ceil((double)num_estudiantes / cantidad_estudiantes_grupo) ;
         //System.out.println(cantidad_grupos);
 
@@ -129,7 +130,8 @@ public class Main {
 
                         //Si encuentra una coincidencia agrega al estudiante en el grupo y sale del ciclo
                         //Estudiantes por gruṕo = 4, por lo tanto cada arraylist de grupo debe tener 5 estapcio
-                        if ((j < 4)&&(datos.get(i).get(j).compareTo(String.valueOf(grupos_f.get(k).get(0))) == 0) && (grupos_f.get(k).size() != 5)){
+                        if ((j < 4)&&(datos.get(i).get(j).compareTo(String.valueOf(grupos_f.get(k).get(0))) == 0)
+                                && (grupos_f.get(k).size() != (cantidad_estudiantes_grupo+1))){
                             grupos_f.get(k).add(datos.get(i).get(0));
                             asignado = true;
                             break;
@@ -141,7 +143,7 @@ public class Main {
                                 //Crearemos un numero random de grupo asignaremos al estudiante en este grupo
                                 Random rn = new Random();
                                 int numero = (int) (Math.random() * grupos_f.size());
-                                if (grupos_f.get(numero).size() < 5) {
+                                if (grupos_f.get(numero).size() < (cantidad_estudiantes_grupo+1)) {
                                     grupos_f.get(numero).add(datos.get(i).get(0));
                                     asignado = true;
                                     break;
@@ -160,17 +162,18 @@ public class Main {
         return grupos_f;
     }
 
-    //Arreglar para hacerlo mas general
-    public static void agregar_estudiantes_que_no_presentaron(ArrayList<ArrayList<String>> grupos, ArrayList<String> datos_no_participaron){
+    public static void agregar_estudiantes_que_no_presentaron(ArrayList<ArrayList<String>> grupos_casi_formados,
+                                                              ArrayList<String> datos_no_participaron,
+                                                              int cantidad_estudiantes_grupo){
 
         for (int i = 0; i< datos_no_participaron.size(); i++) {
             boolean asignado = false;
             while(asignado == false){
                 //Crearemos un numero random de grupo asignaremos al estudiante en este grupo
                 Random rn = new Random();
-                int numero = (int) (Math.random() * grupos.size());
-                if (grupos.get(numero).size() < 5) {
-                    grupos.get(numero).add(datos_no_participaron.get(i));
+                int numero = (int) (Math.random() * grupos_casi_formados.size());
+                if (grupos_casi_formados.get(numero).size() < (cantidad_estudiantes_grupo+1)) {
+                    grupos_casi_formados.get(numero).add(datos_no_participaron.get(i));
                     asignado = true;
                     break;
                 }
@@ -178,30 +181,39 @@ public class Main {
         }
 
 
+        int sum = 0;
+        for (int i = 0; i < grupos_casi_formados.size(); i++) {
+            sum = sum + grupos_casi_formados.get(i).size()-1;
+        }
+        System.out.println("---------------------------------------");
+        System.out.println("cantidad de estudiantes en total = "+sum);
+        System.out.println();
+        System.out.println();
 
-        for ( int i = 0; i < grupos.size(); i++) {
-            System.out.println("---------------------Proyecto numero "+grupos.get(i).get(0)+"--------------------");
-            System.out.println(grupos.get(i));
-            System.out.println("  Tamaño del grupo "+ ((grupos.get(i).size())-1));
-
+        for ( int i = 0; i < grupos_casi_formados.size(); i++) {
+            System.out.println("---------------------Proyecto numero "+grupos_casi_formados.get(i).get(0)+"--------------------");
+            System.out.println(grupos_casi_formados.get(i));
+            System.out.println("  Tamaño del grupo "+ ((grupos_casi_formados.get(i).size())-1));
         }
 
     }
 
 
     public static void main(String[] args) {
+
+
         lectorCSV lectorCSV = new lectorCSV();
-        ArrayList<ArrayList<String>> datos = lectorCSV.leerCSV();
+        ArrayList<ArrayList<String>> datos = lectorCSV.leerCSV("/media/jordan/DATOS/Programacion/Becario/introduccion_encuestados.csv");
 
         ArrayList<Integer[]> lista_grupos = new ArrayList<>();
         lista_grupos= proyectosYvotos(datos);
         lista_grupos = ordenamiento(lista_grupos);
 
-        ArrayList<ArrayList<String>> grupos = crear_grupos(datos,lista_grupos);
+        ArrayList<ArrayList<String>> grupos = crear_grupos(datos,lista_grupos,39,4.00);
 
 
-        ArrayList<String> datos_no_participaron = lectorCSV.leerCSV_no_participantes();
+        ArrayList<String> datos_no_participaron = lectorCSV.leerCSV_no_participantes("/media/jordan/DATOS/Programacion/Becario/introduccion_No_entregaron.csv");
 
-        agregar_estudiantes_que_no_presentaron(grupos,datos_no_participaron);
+        agregar_estudiantes_que_no_presentaron(grupos,datos_no_participaron,4);
     }
 }

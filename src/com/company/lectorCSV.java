@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class lectorCSV {
-    public ArrayList<ArrayList<String>> leerCSV(){
+    public ArrayList<ArrayList<String>> leerCSV(String direccion_archivo){
         ArrayList<ArrayList<String>> datos = new ArrayList<>();
-        Path filePath = Paths.get("/media/jordan/DATOS/Programacion/Becario/introduccion_encuestados.csv");
+        Path filePath = Paths.get(direccion_archivo);
         try {
             BufferedReader br = Files.newBufferedReader(filePath);
             String linea;
@@ -28,9 +28,9 @@ public class lectorCSV {
         return datos;
     }
 
-    public ArrayList<String> leerCSV_no_participantes(){
+    public ArrayList<String> leerCSV_no_participantes(String direccion_archivo){
         ArrayList<String> datos = new ArrayList<>();
-        Path filePath = Paths.get("/media/jordan/DATOS/Programacion/Becario/introduccion_No_entregaron.csv");
+        Path filePath = Paths.get(direccion_archivo);
         try {
             BufferedReader br = Files.newBufferedReader(filePath);
             String linea;
