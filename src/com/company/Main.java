@@ -85,18 +85,21 @@ public class Main {
             System.out.println("votos " + ordenado.get(j)[1]);
         }
         System.out.println("--------------------votos ordenasdos-------------------");
+
          */
+
         return  ordenado;
     }
 
+    //Crea grupos con los estudiantes que participaron solamente
     public static ArrayList<ArrayList<String>> crear_grupos(
             ArrayList<ArrayList<String>> datos,
             ArrayList<Integer[]> grupos,
-            int num_estudiantes,
+            int num_estudiantes_participaron,
             double cantidad_estudiantes_grupo){
 
-        double cantidad_grupos = Math.ceil((double)num_estudiantes / cantidad_estudiantes_grupo) ;
-        //System.out.println(cantidad_grupos);
+        double cantidad_grupos = Math.ceil((double)num_estudiantes_participaron / cantidad_estudiantes_grupo) ;
+        System.out.println("cantidad de grupos con los estudiantes que si participaron= "+ cantidad_grupos);
 
         //Crea la lista de los grupos
         ArrayList<ArrayList<String>> grupos_f = new ArrayList<>();
@@ -113,7 +116,7 @@ public class Main {
 
         }
 
-        //System.out.println(grupos_f);
+        System.out.println(grupos_f);
 
 
         //Agregar estudiantes a la lista
@@ -159,13 +162,23 @@ public class Main {
             }
         }
 
+        /*
+        for ( int i = 0; i < grupos_f.size(); i++) {
+            System.out.println("---------------------Proyecto numero "+grupos_f.get(i).get(0)+"--------------------");
+            System.out.println(grupos_f.get(i));
+            System.out.println("  Tamaño del grupo "+ ((grupos_f.get(i).size())-1));
+        }
+
+         */
         return grupos_f;
     }
 
     public static void agregar_estudiantes_que_no_presentaron(ArrayList<ArrayList<String>> grupos_casi_formados,
+                                                              ArrayList<Integer[]> grupos,
                                                               ArrayList<String> datos_no_participaron,
                                                               int cantidad_estudiantes_grupo){
 
+        /*
         for (int i = 0; i< datos_no_participaron.size(); i++) {
             boolean asignado = false;
             while(asignado == false){
@@ -179,16 +192,42 @@ public class Main {
                 }
             }
         }
+         */
 
 
-        int sum = 0;
-        for (int i = 0; i < grupos_casi_formados.size(); i++) {
-            sum = sum + grupos_casi_formados.get(i).size()-1;
+        double cantidad_grupos = Math.ceil((double)datos_no_participaron.size() / cantidad_estudiantes_grupo) ;
+
+        int tamaño_actual_grupos = grupos_casi_formados.size()-1;
+        for (int i = (tamaño_actual_grupos); i < (tamaño_actual_grupos+cantidad_grupos); i++) {
+
+            grupos_casi_formados.add(new ArrayList<String>());
+
+            //Obtener numero grupo
+            String num_grupo = String.valueOf(grupos.get(i+1)[0]);
+
+            //ingresar numero del grupo a la primera componente de cada lista de grupo
+            grupos_casi_formados.get(i+1).add(0,num_grupo);
+
         }
-        System.out.println("---------------------------------------");
-        System.out.println("cantidad de estudiantes en total = "+sum);
-        System.out.println();
-        System.out.println();
+
+        //System.out.println(grupos_casi_formados);
+
+        for (int i = 0; i< datos_no_participaron.size(); i++) {
+            boolean asignado = false;
+            while(asignado == false){
+                //Crearemos un numero random de grupo asignaremos al estudiante en este grupo
+                Random rn = new Random();
+                int numero = (int) (Math.random() * ((grupos_casi_formados.size()) - (tamaño_actual_grupos-1)) + (tamaño_actual_grupos-1));
+                if (grupos_casi_formados.get(numero).size() < (cantidad_estudiantes_grupo+1)) {
+                    grupos_casi_formados.get(numero).add(datos_no_participaron.get(i));
+                    asignado = true;
+                    break;
+                }
+            }
+        }
+
+        System.out.println("cantidad de grupos de los estudiantes que no participaron = "+ cantidad_grupos);
+        System.out.println("cantidad de grupos en total = "+ grupos_casi_formados.size());
 
         for ( int i = 0; i < grupos_casi_formados.size(); i++) {
             System.out.println("---------------------Proyecto numero "+grupos_casi_formados.get(i).get(0)+"--------------------");
@@ -196,9 +235,15 @@ public class Main {
             System.out.println("  Tamaño del grupo "+ ((grupos_casi_formados.get(i).size())-1));
         }
 
+        int sum = 0;
+        for (int i = 0; i < grupos_casi_formados.size(); i++) {
+            sum = sum + grupos_casi_formados.get(i).size()-1;
+        }
+        System.out.println("---------------------------------------");
+        System.out.println("cantidad de estudiantes en total (Encuestados o no)= "+sum);
         System.out.println();
         System.out.println();
-        System.out.println();
+
     }
 
 
@@ -212,12 +257,14 @@ public class Main {
         lista_grupos= proyectosYvotos(datos);
         lista_grupos = ordenamiento(lista_grupos);
 
-        ArrayList<ArrayList<String>> grupos = crear_grupos(datos,lista_grupos,39,4.00);
+        //Con 34 estudiantes los resultados son mas balanceados, 33 es el correcto pero deja resultados mas desbalanceados
+        ArrayList<ArrayList<String>> grupos = crear_grupos(datos,lista_grupos,34,4.00);
 
 
         ArrayList<String> datos_no_participaron = lectorCSV.leerCSV_no_participantes("/media/jordan/DATOS/Programacion/Becario/introduccion_No_entregaron.csv");
 
-        agregar_estudiantes_que_no_presentaron(grupos,datos_no_participaron,4);
+       agregar_estudiantes_que_no_presentaron(grupos,lista_grupos,datos_no_participaron,4);
+
 
         System.out.println("------------------ED--------------------------------");
 
@@ -228,12 +275,14 @@ public class Main {
         lista_grupos_ED= proyectosYvotos(datos_ED);
         lista_grupos_ED = ordenamiento(lista_grupos_ED);
 
-        ArrayList<ArrayList<String>> grupos_ED = crear_grupos(datos_ED,lista_grupos_ED,34,3.00);
+        ArrayList<ArrayList<String>> grupos_ED = crear_grupos(datos_ED,lista_grupos_ED,27,3.00);
 
 
         ArrayList<String> datos_no_participaron_ED = lectorCSV.leerCSV_no_participantes("/media/jordan/DATOS/Programacion/Becario/ED_no_entregaron.csv");
 
-        agregar_estudiantes_que_no_presentaron(grupos_ED,datos_no_participaron_ED,3);
+        agregar_estudiantes_que_no_presentaron(grupos_ED,lista_grupos,datos_no_participaron_ED,3);
+
+
 
     }
 }
